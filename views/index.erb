@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Enju accessor</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="http://textae.pubannotation.org/lib/css/textae.min.css" />
+<script src="http://textae.pubannotation.org/lib/textae.min.js"></script>
+</head>
+
+<body>
+<div id="header">
+  <div id="title">
+    Enju REST Accessor
+  </div>
+</div>
+<div id="main">
+  <fieldset class="pane">
+    <legend>Demo</legend>
+    <form>
+      <input type="text" name="text" style="width:80%" value="<%= params[:text] %>" placeholder="Input text">
+      <input type="submit">
+<!-- 
+      <% if params[:mode] == 'POS' %>
+        <input type="radio" name="mode" value="PAS" id="mode_PAS" /><label for="mode_PAS">PAS (predicate argument structure)</label>
+        <input type="radio" name="mode" value="POS" id="mode_POS" checked="true" /><label for="mode_POS">PAS (part-of-speech)</label>
+      <% else %>
+        <input type="radio" name="mode" value="PAS" id="mode_PAS" checked="true" /><label for="mode_PAS">PAS (predicate argument structure)</label>
+        <input type="radio" name="mode" value="POS" id="mode_POS" /><label for="mode_POS">PAS (part-of-speech)</label>
+      <% end %>
+ -->
+    </form>
+    <% unless @annotations.nil? %>
+      <section>
+        <h1>Result</h1>
+        <section>
+          <h2><a href="http://textae.pubannotation.org">TextAE</a></h2>
+          <div class="textae-editor" style="padding:4px">
+          <%= @annotations.to_json %>
+          </div>
+        </section>
+        <section>
+          <h2>JSON</h2>
+          <textarea style="width:100%; height: 4em">
+<%= JSON.pretty_generate(@annotations) %>
+          </textarea>
+        </section>
+      </section>
+    <% end %>
+  </fieldset>
+
+<section>
+  <h1>Description</h1>
+  <ul>
+  <li>It is a REST service to produce annotation of syntactic parsing.</li>
+  <li>It accesses an <a href="http://kmcs.nii.ac.jp/enju">Enju</a> CGI server to receive parsing results,</li>
+  <li>and convert them in <a href="http://www.pubannotation.org/docs/annotation-format/">PubAnnotation JSON format</a>.</li>
+  </ul>
+</section>
+
+<section>
+  <h1>Usage</h1>
+
+  <section>
+    <h2>Input</h2>
+    <p>Post a block of text as a value of the parameter <i>text</i>, as follows:</p>
+<pre>
+curl -d text="..." http://enju.dbcls.jp
+</pre>
+
+    or
+
+<pre>
+curl -H "content-type:application/json" -d '{"text":"..."}' http://enju.dbcls.jp
+</pre>
+  </section>
+
+  <section>
+    <h2>Output</h2>
+    You will get the parsing results in the <a href="http://www.pubannotation.org/docs/format/">PubAnnotation JSON format</a>.
+  </section>
+</section>
+
+</div>
+</body>
+</html>

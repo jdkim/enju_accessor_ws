@@ -1,0 +1,81 @@
+body {
+	font: 300 18px Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	width: 800px;
+	margin: 0;
+	padding: 0;
+}
+
+input, textarea {
+	font: 300 21px Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+@media screen and (max-width: 806px) {
+	body {
+		width: 100%;
+	}
+}
+
+#header {
+	margin-bottom: 5px;
+	padding: 10px 5px;
+	background-color: #44aac6;
+}
+
+#title {
+	display: inline-block;
+	font-size: 2.5em;
+	color: #f0f0f0;
+}
+
+#main {
+	padding: 5px;
+}
+
+section {
+	margin: 5px 0;
+	padding: 5px;
+}
+
+.pane h1 {
+	font-size: 0.8em;
+}
+
+.pane h2 {
+	font-size: 0.6em;
+}
+
+.pane textarea {
+	font-size: 0.8em;
+}
+
+h1, h2, h3 {
+	margin: 5px 0 5px -5px;
+}
+
+h1 {
+	font-size: 1.2em;
+}
+
+h2 {
+	font-size: 1em;
+}
+
+.pane {
+	margin: 5px 0;
+	border-style: solid;
+	border-color: #ccccff;
+	background-color: #fafaff;
+	border-radius: 10px;
+}
+
+ul {
+	margin: 5px;
+	padding-left: 20px;
+}
+
+pre {
+	white-space: pre-wrap;
+	background-color: #EEEEEE;
+	padding: 5px;
+	font-size: 0.7em;
+}
