@@ -6,14 +6,19 @@ require 'enju_accessor'
 enju = EnjuAccessor.new("http://localhost:38401/cgi-lilfes/enju")
 
 before do
-	if request.content_type && request.content_type.downcase =~ /application\/json/
+	if request.content_type
 		body = request.body.read
-		begin
-			json_params = JSON.parse body, :symbolize_names => true unless body.empty?
-		rescue => e
-			@error_message = 'ill-formed JSON string'
+
+		if request.content_type.downcase =~ /application\/json/
+			begin
+				json_params = JSON.parse body, :symbolize_names => true unless body.empty?
+			rescue => e
+				@error_message = 'ill-formed JSON string'
+			end
+			params.merge!(json_params) unless json_params.nil?
+		elsif request.content_type.downcase =~ /text\/plain/
+			params.merge!({text:body})
 		end
-		params.merge!(json_params) unless json_params.nil?
 	end
 end
 
