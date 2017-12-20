@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rest-client'
 gem 'sinatra'
 gem 'erubis'
 gem 'unicorn'
-gem 'enju_accessor', '~> 1.0'
+gem 'enju_accessor', '~> 1.0', '>= 1.0.2'
