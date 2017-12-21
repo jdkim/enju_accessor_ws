@@ -3,7 +3,12 @@ require 'sinatra'
 require 'json'
 require 'enju_accessor'
 
-enju = EnjuAccessor.new("http://localhost:38401/cgi-lilfes/enju")
+configure do
+	set :enju, EnjuAccessor.new("http://localhost:38401/cgi-lilfes/enju")
+	set :mogura, EnjuAccessor.new("http://localhost:38401/cgi-lilfes/enju")
+	set :enju_gtrec, EnjuAccessor.new("http://localhost:38401/cgi-lilfes/enju")
+	set :mogura_gtrec, EnjuAccessor.new("http://localhost:38401/cgi-lilfes/enju")
+end
 
 before do
 	if request.content_type
@@ -24,7 +29,7 @@ end
 
 get '/' do
 	unless params[:text].nil?
-		@annotations = params[:mode] == 'POS' ? enju.tag_text(params[:text]) : enju.parse_text(params[:text])
+		@annotations = get_annotations
 	end
 	erb :index
 end
@@ -36,7 +41,7 @@ post '/' do
 		text = params[:text]
 		raise ArgumentError, "'text' value needs to be supplied." if text.nil?
 
-		annotations = params[:mode] == 'POS' ? enju.tag_text(text) : enju.parse_text(text)
+		annotations = get_annotations
 
 		headers \
 			'Content-Type' => 'application/json'
@@ -54,4 +59,20 @@ post '/' do
 		status 502
 		{message:e.message}.to_json
 	end
+end
+
+def get_annotations
+	text = params[:text]
+
+	mode = params[:mode]
+	model = params[:model]
+	parser = params[:parser]
+
+	cgi = if model == 'GTREC'
+		parser == 'Mogura' ? settings.mogura_gtrec : settings.enju_gtrec
+	else # default: 'GENIA'
+		parser == 'Mogura' ? settings.mogura : settings.enju
+	end
+
+	params[:mode] == 'POS' ? cgi.tag_text(text) : cgi.parse_text(text)
 end

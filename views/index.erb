@@ -11,24 +11,53 @@
 <body>
 <div id="header">
   <div id="title">
-    Enju REST Accessor
+    <a href="<%= url('/') %>">Enju REST Accessor</a>
   </div>
 </div>
 <div id="main">
   <fieldset class="pane">
     <legend>Demo</legend>
     <form>
-      <input type="text" name="text" style="width:80%" value="<%= params[:text] %>" placeholder="Input text">
-      <input type="submit">
-<!-- 
-      <% if params[:mode] == 'POS' %>
-        <input type="radio" name="mode" value="PAS" id="mode_PAS" /><label for="mode_PAS">PAS (predicate argument structure)</label>
-        <input type="radio" name="mode" value="POS" id="mode_POS" checked="true" /><label for="mode_POS">PAS (part-of-speech)</label>
-      <% else %>
-        <input type="radio" name="mode" value="PAS" id="mode_PAS" checked="true" /><label for="mode_PAS">PAS (predicate argument structure)</label>
-        <input type="radio" name="mode" value="POS" id="mode_POS" /><label for="mode_POS">PAS (part-of-speech)</label>
-      <% end %>
- -->
+      <table style="width:100%">
+        <tr>
+          <td><input type="text" name="text" style="width:100%; box-sizing:border-box;" value="<%= params[:text] %>" placeholder="Input a sentence" required=true></td>
+          <td><input type="submit" value="Go"></td>
+        </tr>
+        <tr>
+          <td style="text-align:center">
+            <table class="option">
+              <tr>
+                <th>Mode</th>
+                <td>
+                  <label for="mode_PAS" title="predicate argument structure">PAS</label><input type="radio" name="mode" value="PAS" id="mode_PAS" <%= "checked='true'" if params[:mode] == nil || params[:mode] == 'PAS' %> />
+                  |
+                  <label for="mode_POS" title="part-of-speech">POS</label><input type="radio" name="mode" value="POS" id="mode_POS" <%= "checked='true'" if params[:mode] == 'POS' %> />
+                </td>
+              </tr>
+            </table>
+            <table class="option">
+              <tr>
+                <th>Model</th>
+                <td>
+                  <label for="model_GENIA" title="A model trained on GENIA treebank">GENIA</label><input type="radio" name="model" value="GENIA" id="model_GENIA" <%= "checked='true'" if params[:mode] == nil || params[:model] == 'GENIA' %> />
+                  |
+                  <label for="model_GTREC" title="A model re-trained on TREC Genomics QA questions">GTREC</label><input type="radio" name="model" value="GTREC" id="model_GTREC" <%= "checked='true'" if params[:model] == 'GTREC' %> />
+                </td>
+              </tr>
+            </table>
+            <table class="option">
+              <tr>
+                <th>Parser</th>
+                <td>
+                  <label for="parser_Enju" title="Enju parser - more accurate, but slower">Enju</label><input type="radio" name="parser" value="Enju" id="parser_Enju" <%= "checked='true'" if params[:mode] == nil || params[:parser] == 'Enju' %> />
+                  |
+                  <label for="parser_Mogura" title="Mogura parser - less accurate, but faster">Mogura</label><input type="radio" name="parser" value="Mogura" id="parser_Mogura" <%= "checked='true'" if params[:parser] == 'Mogura' %> />
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
     </form>
     <% unless @annotations.nil? %>
       <section>
@@ -69,23 +98,31 @@
 
   <section>
     <h2>Input</h2>
-    <p>Post a block of text as a value of the parameter <i>text</i>, as follows:</p>
+    <p>Post a block of text as a value of the parameter <i>text</i> to the URL:</p>
 <pre>
-curl -d text="Input text comes here." <%= url('/') %>
+<%= thisurl = request.url.sub(/text=[^&]*&/, '') %>
+</pre>
+
+    <p>For example, using the command <a href="https://curl.haxx.se/">curl</a>:</p>
+
+<pre>
+curl -d text="Input text comes here." \
+<%= thisurl %>
 </pre>
 
   or
 
 <pre>
-curl -H "content-type:application/json" -d '{"text":"Input text comes here."}' <%= url('/') %>
+curl -H "content-type:application/json" -d '{"text":"Input text comes here."}' \
+<%= thisurl %>
 </pre>
 
   or
 
 <pre>
-curl -H "content-type:text/plain" -d "Input text comes here." <%= url('/') %>
+curl -H "content-type:text/plain" -d "Input text comes here." \
+<%= thisurl %>
 </pre>
-
 
   </section>
 

@@ -27,6 +27,15 @@ input, textarea {
 	color: #f0f0f0;
 }
 
+#title a {
+	text-decoration: none;
+}
+
+#title a:visited {
+	text-decoration: none;
+}
+
+
 #main {
 	padding: 5px;
 }
@@ -68,6 +77,23 @@ h2 {
 	border-radius: 10px;
 }
 
+table.option {
+	font-size: small;
+	display: inline-block;
+	margin: 4px;
+	border: 1px solid #bbb;
+	border-collapse: collapse;
+}
+
+table.option th {
+	font-weight: normal;
+	background-color: #bbb;
+}
+
+table.option th, td {
+	padding: 2px;
+}
+
 ul {
 	margin: 5px;
 	padding-left: 20px;
@@ -77,7 +103,6 @@ ul {
 	font-weight: 300;
 	vertical-align: baseline;
 }
-
 
 pre {
 	white-space: pre-wrap;
